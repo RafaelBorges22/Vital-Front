@@ -13,6 +13,7 @@ import LoginClient from '../views/auth/LoginClient.vue'
 import LoginDriver from '../views/auth/LoginDriver.vue'
 import AccessDenied from '../views/errors/404.vue'
 import ClientsListView from '../views/AdminViews/ClientsListView.vue'
+import ClientHome from '../views/ClientViews/ClientHome.vue'
 
 const routes = [
   // Rotas de autenticação e cadastro
@@ -56,6 +57,11 @@ const routes = [
     path: '/dashboard-admin',
     name: 'dashboard-admin',
     component: AdminHome
+  },
+  {
+    path: '/dashboard-client',
+    name: 'dashboard-cliente',
+    component: ClientHome
   },
 
   // Rotas de administração

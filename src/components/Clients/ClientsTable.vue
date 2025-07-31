@@ -211,66 +211,78 @@ export default {
       }
     },
 
-    async handleCreateClient(formData) {
-      try {
-        const payload = {
-          name: formData.name,
-          email: formData.email || '',
-          password: formData.password,
-          cnpj: formData.cnpj || '',
-          address: formData.address || '',
-          payment_method: formData.payment_method,
-          opening_date: formData.opening_date
-        };
-
-        const response = await axios.post(`${API_URL}/clients/`, payload);
-
-        if (response.status === 201) {
-          this.fetchClients();
-          this.closeCreateModal();
-          this.$toast.success('Cliente criado com sucesso!');
-        } else {
-          throw new Error(response?.data?.error || 'Erro desconhecido');
-        }
-      } catch (error) {
-        console.error('Erro ao criar cliente:', error);
-
-        let errorMessage = 'Erro ao criar cliente';
-
-        if (error.response) {
-          errorMessage = error.response.data?.message || error.response.data?.error || error.response.statusText;
-        } else if (error.request) {
-          errorMessage = 'Sem resposta do servidor';
-        } else {
-          errorMessage = error.message;
-        }
-
-        this.$toast.error(`Falha: ${errorMessage}`);
-      }
-    },
-
- async handleUpdateClient(formData) {
+  async handleCreateClient(formData) {
   try {
-    await axios.put(`${API_URL}/clients/${formData.id}`, {
+     let opening_date = formData.opening_date;
+    if (!opening_date) {
+      opening_date = null;
+    } else if (typeof opening_date === 'string' && opening_date.includes('/')) {
+      const [day, month, year] = opening_date.split('/');
+      opening_date = `${year.length === 2 ? '20' + year : year}-${month}-${day}`;
+    }
+
+    const payload = {
+      name: formData.name,
+      email: formData.email || '',
+      password: formData.password,
+      cnpj: formData.cnpj || '',
+      address: formData.address || '',
+      payment_method: formData.payment_method,
+      opening_date: formData.opening_date
+    };
+
+    const response = await axios.post(`${API_URL}/clients/`, payload);
+
+    if (response.status === 201 || response.status === 200) {
+      await this.fetchClients();
+      this.closeCreateModal();
+      if (this.$toast?.success) this.$toast.success('Cliente criado com sucesso!');
+    } else {
+      throw new Error(response?.data?.error || 'Erro desconhecido');
+    }
+  } catch (error) {
+    let errorMessage = 'Erro ao criar cliente';
+    if (error.response) {
+      errorMessage = error.response.data?.message || error.response.data?.error || error.response.statusText;
+    } else if (error.request) {
+      errorMessage = 'Sem resposta do servidor';
+    } else {
+      errorMessage = error.message;
+    }
+    if (this.$toast?.error) this.$toast.error(`Falha: ${errorMessage}`);
+  }
+},
+
+async handleUpdateClient(formData) {
+  try {
+    let opening_date = formData.opening_date;
+    if (!opening_date) {
+      opening_date = null;
+    } else if (typeof opening_date === 'string' && opening_date.includes('/')) {
+      const [day, month, year] = opening_date.split('/');
+      opening_date = `${year.length === 2 ? '20' + year : year}-${month}-${day}`;
+    }
+
+    const payload = {
       name: formData.name,
       email: formData.email,
       cnpj: formData.cnpj,
       address: formData.address,
       payment_method: formData.payment_method,
-      opening_date: formData.opening_date
-    });
+      opening_date: opening_date
+    };
 
-    this.fetchClients();     
-    this.cancelEdit();     
+    await axios.put(`${API_URL}/clients/${formData.id}`, payload);
 
-    this.$toast?.success?.('Cliente atualizado com sucesso!');
+    await this.fetchClients();
+    this.cancelEdit();
+    if (this.$toast?.success) this.$toast.success('Cliente atualizado com sucesso!');
   } catch (error) {
-    console.error('Erro ao atualizar cliente:', error);
-    this.$toast?.error?.('Erro ao atualizar cliente');
+    if (this.$toast?.error) this.$toast.error('Erro ao atualizar cliente');
   }
 },
 
-    async deleteClient(id) {
+async deleteClient(id) {
       this.clientToDelete = this.clients.find(c => c.id === id);
       this.showDeleteModal = true;
     },

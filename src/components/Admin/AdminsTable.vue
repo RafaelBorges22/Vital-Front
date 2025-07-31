@@ -93,6 +93,8 @@
 </template>
 
 <script setup>
+import '@/css/TableAdmins.css';
+import AdminModal from '@/components/Admin/AdminModal.vue';
 import { ref, onMounted } from 'vue';
 import axios from '@/utils/axios.js';
 const API_URL = import.meta.env.VITE_API_URL;
@@ -126,7 +128,7 @@ async function handleCreateAdmin(formData) {
       password: formData.password,
       level: formData.level || '-',
     };
-    const response = await axios.post(`${API_URL}/admin`, payload); 
+    const response = await axios.post(`${API_URL}/admin/`, payload); 
 
     if (response.status === 201) {
       await fetchAdmins(); 
@@ -174,7 +176,7 @@ async function deleteAdminConfirmed() {
 
 async function fetchAdmins() { 
   try {
-    const res = await axios.get(`${API_URL}/admin`); 
+    const res = await axios.get(`${API_URL}/admin/`); 
     console.log('Resposta da API:', res.data);
     let data = [];
 
@@ -206,5 +208,5 @@ onMounted(fetchAdmins);
 </script>
 
 <style scoped>
-@import '@/css/TableClients.css';
+@import '@/css/TableAdmins.css';
 </style>

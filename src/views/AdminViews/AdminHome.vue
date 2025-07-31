@@ -4,21 +4,23 @@
     <div class="admin-content">
       <h1>Bem-vindo, {{ adminName }}!</h1>
       <p>Selecione uma opção no menu ao lado para começar.</p>
-      <AdminsTable />
+      <AdminsTable v-if="adminLevel == 'Master'" />
+      <ClientList v-else />
       <router-view />
     </div>
   </div>
 </template>
 
-
 <script setup>
 import AdminSidebar from '@/components/Admin/Sidebar.vue'
 import AdminsTable from '@/components/Admin/AdminsTable.vue'
+import ClientList from '@/components/Clients/ClientsTable.vue'
 import { useRouter } from 'vue-router'
 import { ref, onMounted } from 'vue'
 
 const router = useRouter()
 const adminName = ref('Administrador')
+const adminLevel = ref('')
 
 function navigateTo(route) {
   router.push(route)
@@ -28,6 +30,10 @@ onMounted(() => {
   const storedName = localStorage.getItem('user_name')
   if (storedName) {
     adminName.value = storedName
+  }
+  const storedLevel = localStorage.getItem('user_level')
+  if (storedLevel) {
+    adminLevel.value = storedLevel
   }
 })
 </script>
