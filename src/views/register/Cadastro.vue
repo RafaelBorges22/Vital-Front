@@ -145,7 +145,7 @@ export default {
         });
         
         console.log('Cadastro realizado com sucesso:', response.data);
-        this.$router.push('/login'); 
+        this.$router.push('/dashboard-client'); 
       } catch (error) {
         console.error('Erro no cadastro:', error);
         if (error.response) {

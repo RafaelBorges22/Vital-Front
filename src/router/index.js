@@ -14,6 +14,7 @@ import LoginDriver from '../views/auth/LoginDriver.vue'
 import AccessDenied from '../views/errors/404.vue'
 import ClientsListView from '../views/AdminViews/ClientsListView.vue'
 import ClientHome from '../views/ClientViews/ClientHome.vue'
+import SolicitationsView from '../views/AdminViews/SolicitationsListView.vue'
 
 const routes = [
   // Rotas de autenticação e cadastro
@@ -52,7 +53,7 @@ const routes = [
     name: 'login-motorista',
     component: LoginDriver
   },
-  // Rotas de usuário
+  // Dashboard de usuário
   {
     path: '/dashboard-admin',
     name: 'dashboard-admin',
@@ -96,11 +97,16 @@ const routes = [
     meta: { requiresAuth: true, role: 'admin' } 
   },
   {
+    path: '/lista-solicitacoes',
+    name: 'lista-solicitacoes',
+    component: SolicitationsView
+  },
+  // Rotas de erro
+  {
     path: '/access-denied',
     name: 'AccessDenied',
     component: AccessDenied
   },
-  // Rotas de erro
   {
     path: '/:pathMatch(.*)*',
     name: 'NotFound',

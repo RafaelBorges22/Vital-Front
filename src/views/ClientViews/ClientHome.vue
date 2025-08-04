@@ -7,26 +7,34 @@
         Pronto para contribuir com o meio ambiente? <br>
         Faça agora uma solicitação de coleta de óleo usado e ajude a transformar resíduos em sustentabilidade!
       </p>
-      <button class="btn-request" @click="navigateTo('/solicitacao-coleta')">
+      <button class="btn-request" @click="isModalVisible =true">
         Solicitar Coleta de Óleo
       </button>
-      <router-view />
+      <SolicitationModal
+        :visible="isModalVisible "
+        @close="isModalVisible  = false"
+        @confirm="handleSolicitation"
+      />
     </div>
   </div>
 </template>
 
 <script setup>
+import SolicitationModal from '@/components/Solicitations/SolicitationModal.vue';
 import ClientSidebar from '@/components/Clients/Sidebar.vue'
 import { useRouter } from 'vue-router'
 import { ref, onMounted } from 'vue'
 
 const router = useRouter()
 const clientName = ref('Cliente')
+const isModalVisible = ref(false)
 
 function navigateTo(route) {
   router.push(route)
 }
-
+function handleSolicitation(payload) {
+  isModalVisible.value = false
+}
 onMounted(() => {
   const storedName = localStorage.getItem('user_name')
   if (storedName) {
