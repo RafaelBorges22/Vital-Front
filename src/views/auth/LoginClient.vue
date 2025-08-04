@@ -136,13 +136,12 @@ async function fazerLogin() {
     
    const decodedToken = jwtDecode(data.access_token);
     
-    localStorage.setItem('access_token', data.access_token);
-    localStorage.setItem('user_id', decodedToken.id); 
-    localStorage.setItem('user_role', decodedToken.role || 'client');
-    
+    localStorage.setItem('token', data.access_token); 
+    localStorage.setItem('client_id', decodedToken.id);
+
+
     console.log('Login bem-sucedido! Token JWT do Cliente:', data.access_token);
-    console.log('Dados decodificados do Token:', decodedToken);
-    
+    console.log('Dados decodificados do Token:', decodedToken);    
     router.push('/dashboard-client') 
 
   } catch (error) {

@@ -4,71 +4,49 @@
       <h2>{{ title }}</h2>
       <form @submit.prevent="handleSubmit">
         <div class="form-group">
-          <label for="client-name">Nome do Cliente:</label>
+          <label for="admin-name">Nome do Administrador:</label>
           <input
-            id="client-name"
+            id="admin-name"
             v-model.trim="formData.name"
             required
             class="form-input"
-            placeholder="Digite o nome do Cliente"
+            placeholder="Digite o nome do Administrador"
           >
         </div>
         <div class="form-group">
-          <label for="client-address">Endereço:</label>
+          <label for="admin-email">E-mail:</label>
           <input
-            id="client-address"
-            v-model.trim="formData.address"
-            required
-            class="form-input"
-            placeholder="Digite o endereço"
-          >
-        </div>
-        <div class="form-group">
-          <label for="client-cnpj">CNPJ:</label>
-          <input
-            id="client-cnpj"
-            v-model.trim="formData.cnpj"
-            required
-            class="form-input"
-            placeholder="Digite o CNPJ"
-          >
-        </div>
-        <div class="form-group">
-          <label for="client-email">E-mail:</label>
-          <input
-            id="client-email"
+            id="admin-email"
             v-model.trim="formData.email"
             type="email"
             required
             class="form-input"
-            placeholder="cliente@email.com"
+            placeholder="admin@email.com"
           >
         </div>
         <div class="form-group">
-          <label for="client-date">Data de Abertura:</label>
+          <label for="admin-password">Senha:</label>
           <input
-            id="client-date"  
-            v-model="formData.opening_date"
-            type="date"
+            id="admin-password"
+            v-model.trim="formData.password"
+            type="password"
             required
             class="form-input"
-            :max="new Date().toISOString().split('T')[0]"
+            placeholder="Digite a senha"
           >
         </div>
         <div class="form-group">
-          <label for="payment-method">Método de Pagamento:</label>
+          <label for="level">Nível do Administrador:</label>
           <select
-            id="payment-method"
-            v-model="formData.payment_method"
+            id="level"
+            v-model="formData.level"
             required
             class="form-input"
           >
-            <option value="">Selecione um método</option>
-            <option value="Credito">Cartão de Crédito</option>
-            <option value="Debito">Cartão de Débito</option>
-            <option value="Pix">PIX</option>
-            <option value="Dinheiro">Dinheiro</option>
-            <option value="Produto">Produto</option>
+            <option value="">Selecione um Nível</option>
+            <option value="PLENO">Pleno</option>
+            <option value="JUNIOR">Junior</option>
+            <option value="MASTER">Master</option>
           </select>
         </div>
         <div class="modal-actions">
@@ -83,6 +61,7 @@
     </div>
   </div>
 </template>
+
 <script>
 import '@/css/ModalClients.css'
 
@@ -91,7 +70,7 @@ export default {
     visible: Boolean,
     title: {
       type: String,
-      default: 'Gerenciar Cliente'
+      default: 'Gerenciar Administrador'
     },
     confirmButtonText: {
       type: String,
@@ -105,11 +84,9 @@ export default {
   data() {
     const defaultData = {
       name: '',
-      address: '',
-      cnpj: '',
       email: '',
-      payment_method: '',
-      opening_date: new Date().toISOString().split('T')[0]
+      password: '',
+      level:''
     };
     return {
       formData: { ...defaultData, ...this.initialData }
@@ -120,11 +97,8 @@ export default {
       handler(newVal) {
         const defaultData = {
           name: '',
-          address: '',
-          cnpj: '',
           email: '',
-          payment_method: '',
-          opening_date: new Date().toISOString().split('T')[0]
+          password: ''
         };
         this.formData = { ...defaultData, ...newVal };
       },
@@ -136,8 +110,9 @@ export default {
     validateForm() {
       const requiredFields = {
         name: 'Nome',
-        payment_method: 'Método de pagamento',
-        opening_date: 'Data de abertura'
+        password: 'Senha',
+        email: 'E-mail',
+        level: 'Nível'
       };
 
       const missingFields = Object.entries(requiredFields)
@@ -165,14 +140,16 @@ export default {
     resetForm() {
       const defaultData = {
         name: '',
-        address: '',
-        cnpj: '',
         email: '',
-        payment_method: '',
-        opening_date: new Date().toISOString().split('T')[0]
+        password: '',
+        level: ''
       };
       this.formData = { ...defaultData, ...this.initialData };
     }
   }
 }
 </script>
+
+<style scoped>
+@import '@/css/ModalClients.css';
+</style>

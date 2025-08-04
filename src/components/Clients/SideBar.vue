@@ -1,36 +1,28 @@
 <template>
-  <nav class="admin-sidebar">
+  <nav class="client-sidebar">
     <div class="sidebar-header">
       <img src="@/assets/logo.png" alt="Logo" class="sidebar-logo" />
     </div>
     <ul class="sidebar-menu">
-      <li @click="$emit('navigate', '/criar-certificado')" class="sidebar-item">
-        <span>📝</span> Criar Certificado
+      <li @click="$emit('navigate', '/conta')" class="sidebar-item">
+        <span>👤</span> Informações da Conta
       </li>
-      <li @click="$emit('navigate', '/enviar-email')" class="sidebar-item">
-        <span>✉️</span> Enviar Email
+      <li @click="logout" class="sidebar-item">
+        <span>🚪</span> Logout
       </li>
-      <li @click="$emit('navigate', '/lista-clientes')" class="sidebar-item">
-        <span>👥</span> Lista de Clientes
-      </li>
-      <li @click="$emit('navigate', '/lista-produtos')" class="sidebar-item">
-        <span>📦</span> Produtos
-      </li>
-      <li @click="$emit('navigate', '/lista-estoques')" class="sidebar-item">
-        <span>🏷️</span> Estoque
-      </li>
-      <li @click="$emit('navigate', '/lista-solicitacoes')" class="sidebar-item">
-    <span>📑</span> Solicitações
-  </li>
     </ul>
   </nav>
 </template>
 
 <script setup>
+function logout() {
+  localStorage.clear()
+  window.location.href = '/login'
+}
 </script>
 
 <style scoped>
-.admin-sidebar {
+.client-sidebar {
   width: 260px;
   background: #e8f5e9;
   min-height: 100vh;
@@ -54,13 +46,6 @@
   margin-bottom: 16px;
 }
 
-.sidebar-title {
-  font-family: 'Poppins', sans-serif;
-  font-weight: 700;
-  color: #6BB200;
-  font-size: 1.2rem;
-}
-
 .sidebar-menu {
   list-style: none;
   width: 100%;
@@ -78,6 +63,7 @@
   gap: 12px;
   border-left: 4px solid transparent;
   transition: background 0.2s, border-color 0.2s;
+  border-radius: 0;
 }
 
 .sidebar-item:hover {
