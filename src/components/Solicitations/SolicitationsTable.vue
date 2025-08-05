@@ -23,45 +23,37 @@
               <th class="col-address">Status</th>
               <th class="col-nome">Data de Solicitação</th>
               <th class="col-nome">Data de Coleta</th>
-              <th class="col-edit">Ações</th>
+              <th class="col-edit">Excluir Solicitação</th>
             </tr>
           </thead>
-          <tbody>
-            <tr v-if="solicitations.length === 0">
-              <td colspan="5" class="text-center">Nenhuma solicitação encontrada</td>
-            </tr>
-            <tr v-for="solicitation in solicitations" :key="solicitation.id" class="product-row">
-              <td class="col-nome">
-                {{ solicitation.client_name || '-' }}
-              </td>
-              <td class="col-address">
-                {{ solicitation.status || '-' }}
-              </td>
-              <td class="col-nome">
-                {{ formatDate(solicitation.date_solicitation) }}
-              </td>
-              <td class="col-nome">
-                {{ formatDate(solicitation.date_collected) }}
-              </td>
-              <td class="col-edit">
-                <div class="action-buttons">
-                  <button @click="startEdit(solicitation)" class="btn-icon" title="Editar">
-                    <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
-                      <path d="M13.5858 3.58579C14.3668 2.80474 15.6332 2.80474 16.4142 3.58579C17.1953 4.36683 17.1953 5.63316 16.4142 6.41421L15.6213 7.20711L12.7929 4.37868L13.5858 3.58579Z" fill="#718096"/>
-                      <path d="M11.3787 5.79289L3 14.1716V17H5.82842L14.2071 8.62132L11.3787 5.79289Z" fill="#718096"/>
-                    </svg>
-                  </button>
-                  <button @click="deleteSolicitation(solicitation.id)" class="btn-icon" title="Excluir">
-                    <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
-                      <path d="M5 7V16C5 17.1046 5.89543 18 7 18H13C14.1046 18 15 17.1046 15 16V7" stroke="#718096" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                      <path d="M8 7V5C8 3.89543 8.89543 3 10 3H10.5C11.6046 3 12.5 3.89543 12.5 5V7" stroke="#718096" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                      <path d="M2 7H18" stroke="#718096" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                    </svg>
-                  </button>
-                </div>
-              </td>
-            </tr>
-          </tbody>
+      <tbody>
+        <tr v-if="solicitations.length === 0">
+          <td colspan="5" class="text-center">Nenhuma solicitação encontrada</td>
+        </tr>
+        <tr 
+          v-else 
+          v-for="solicitation in solicitations" 
+          :key="solicitation.id" 
+          class="product-row solicitation-row"
+          @click="goToSolicitation(solicitation.id)"
+        >
+          <td class="col-nome">{{ solicitation.client_name || '-' }}</td>
+          <td class="col-address">{{ solicitation.status || '-' }}</td>
+          <td class="col-nome">{{ formatDate(solicitation.date_solicitation) }}</td>
+          <td class="col-nome">{{ formatDate(solicitation.date_collected) }}</td>
+          <td class="col-edit">
+            <div class="action-buttons">
+              <button @click.stop="deleteSolicitation(solicitation.id)" class="btn-icon" title="Excluir">
+                <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                  <path d="M5 7V16C5 17.1046 5.89543 18 7 18H13C14.1046 18 15 17.1046 15 16V7" stroke="#718096" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                  <path d="M8 7V5C8 3.89543 8.89543 3 10 3H10.5C11.6046 3 12.5 3.89543 12.5 5V7" stroke="#718096" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                  <path d="M2 7H18" stroke="#718096" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              </button>
+            </div>
+          </td>
+        </tr>
+      </tbody>
         </table>
       </div>
     </div>
@@ -179,7 +171,7 @@ export default {
           date_collected: formData.date_collected
         };
 
-        await axios.put(`${API_URL}/solicitation/${formData.id}`, payload);
+        await axios.put(`${API_URL}/solicitations/${formData.id}`, payload);
 
         await this.fetchSolicitations();
         this.cancelEdit();
@@ -188,7 +180,9 @@ export default {
         if (this.$toast?.error) this.$toast.error('Erro ao atualizar solicitação');
       }
     },
-
+    goToSolicitation(id) {
+      this.$router.push({ name: 'solicitacao-unica', params: { id } });
+    },
     async deleteSolicitation(id) {
       this.solicitationToDelete = this.solicitations.find(s => s.id === id);
       this.showDeleteModal = true;
