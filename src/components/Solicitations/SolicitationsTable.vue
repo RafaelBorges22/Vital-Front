@@ -140,7 +140,7 @@ export default {
           date_collected: formData.date_collected
         };
 
-        const response = await axios.post(`${API_URL}/solicitation/`, payload);
+        const response = await axios.post(`${API_URL}/solicitations/`, payload);
 
         if (response.status === 201 || response.status === 200) {
           await this.fetchSolicitations();

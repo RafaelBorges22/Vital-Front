@@ -109,7 +109,7 @@ function generatePDF() {
 }
 
 function renderPDF(doc) {
-  doc.setTextColor('#4D3E3E') // Cor do texto
+  doc.setTextColor('#4D3E3E') 
 
   doc.setFontSize(18)
   doc.setFont('helvetica', 'bold')

@@ -45,10 +45,11 @@
         <div class="input-group">
           <label for="empresa-pagamento">Tipo de pagamento</label>
           <select id="empresa-pagamento" v-model="empresa.payment_method" required>
-            <option value="dinheiro">Dinheiro</option>
-            <option value="cartao">Cartão</option>
-            <option value="pix">PIX</option>
-            <option value="produto">Produto</option>
+            <option value="DINHEIRO">Dinheiro</option>
+            <option value="DEBITO">Cartão de Debito</option>
+            <option value="CREDITO">Cartão de Credito</option>
+            <option value="PIX">PIX</option>
+            <option value="PRODUTOS">Produto</option>
           </select>
         </div>
 
