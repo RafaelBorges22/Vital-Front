@@ -118,7 +118,7 @@ async function fazerLogin() {
   errorMessage.value = ''
 
   try {
-    const response = await axios.post('/admin/login-admin', { 
+    const response = await axios.post('/admins/login-admin', { 
       name: credenciais.name,
       email: credenciais.email,
       password: credenciais.senha

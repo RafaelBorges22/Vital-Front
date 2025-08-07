@@ -179,7 +179,7 @@ export default {
     
     async fetchStocks() {
       try {
-        const res = await axios.get(`${API_URL}/stock`);
+        const res = await axios.get(`${API_URL}/stocks`);
         console.log('Dados completos:', res.data);
         
         this.stocks = res.data.data.map(item => ({

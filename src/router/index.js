@@ -15,6 +15,7 @@ import AccessDenied from '../views/errors/404.vue'
 import ClientsListView from '../views/AdminViews/ClientsListView.vue'
 import ClientHome from '../views/ClientViews/ClientHome.vue'
 import SolicitationsView from '../views/AdminViews/SolicitationsListView.vue'
+import SolicitationSingle from '../components/Solicitations/SolicitationSingle.vue'
 
 const routes = [
   // Rotas de autenticação e cadastro
@@ -99,7 +100,15 @@ const routes = [
   {
     path: '/lista-solicitacoes',
     name: 'lista-solicitacoes',
-    component: SolicitationsView
+    component: SolicitationsView,
+    meta: { requiresAuth: true, role: 'admin' }
+  },
+  {
+    path: '/lista-solicitacoes/:id',
+    name: 'solicitacao-unica',
+    component: SolicitationSingle,
+    props: true,
+    meta: { requiresAuth: true, role: 'admin' }
   },
   // Rotas de erro
   {

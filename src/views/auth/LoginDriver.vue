@@ -117,7 +117,7 @@ async function fazerLogin() {
   errorMessage.value = ''
 
   try {
-    const response = await axios.post('/driver/login-motorista', { 
+    const response = await axios.post('/drivers/login-motorista', { 
       cnh: credenciais.cnh,
       password: credenciais.senha
     })

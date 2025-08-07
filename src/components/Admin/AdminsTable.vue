@@ -128,7 +128,7 @@ async function handleCreateAdmin(formData) {
       password: formData.password,
       level: formData.level || '-',
     };
-    const response = await axios.post(`${API_URL}/admin/`, payload); 
+    const response = await axios.post(`${API_URL}/admins/`, payload); 
 
     if (response.status === 201) {
       await fetchAdmins(); 
@@ -143,7 +143,7 @@ async function handleCreateAdmin(formData) {
 
 async function handleUpdateAdmin(formData) {
   try {
-    await axios.put(`${API_URL}/admin/${formData.id}`, {
+    await axios.put(`${API_URL}/admins/${formData.id}`, {
       name: formData.name,
       email: formData.email,
       level: formData.level,
@@ -163,7 +163,7 @@ function deleteAdmin(id) {
 async function deleteAdminConfirmed() {
   if (!adminToDelete.value) return;
   try {
-    await axios.delete(`${API_URL}/admin/${adminToDelete.value.id}`);
+    await axios.delete(`${API_URL}/admins/${adminToDelete.value.id}`);
     await fetchAdmins(); 
     showDeleteModal.value = false;
     adminToDelete.value = null;
@@ -176,7 +176,7 @@ async function deleteAdminConfirmed() {
 
 async function fetchAdmins() { 
   try {
-    const res = await axios.get(`${API_URL}/admin/`); 
+    const res = await axios.get(`${API_URL}/admins/`); 
     console.log('Resposta da API:', res.data);
     let data = [];
 
