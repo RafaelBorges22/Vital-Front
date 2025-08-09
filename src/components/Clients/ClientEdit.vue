@@ -84,7 +84,7 @@
   </div>
 </template>
 <script>
-import '@/css/ModalClients.css'
+import '@/css/Modal.css'
 
 export default {
   props: {

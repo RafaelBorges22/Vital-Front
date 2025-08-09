@@ -57,18 +57,25 @@
         </table>
       </div>
     </div>
+    <SolicitationDelete 
+      :visible="showDeleteModal" 
+      :solicitationName="solicitationToDelete ? solicitationToDelete.client_name : ''" 
+      @close="showDeleteModal = false" 
+      @confirm="deleteSolicitationConfirmed"
+    />
   </div>
 </template>
 
 <script>
-import '@/css/TableClients.css';
+import '@/css/Table.css';
+import SolicitationDelete from '@/components/Solicitations/SolicitationDelete.vue';
 import axios from 'axios';
 
 const API_URL = import.meta.env.VITE_API_URL;
 
 export default {
   components: {
-
+    SolicitationDelete
   },
   data() {
     return {
@@ -191,7 +198,7 @@ export default {
     async deleteSolicitationConfirmed() {
       if (!this.solicitationToDelete) return;
       try {
-        await axios.delete(`${API_URL}/solicitation/${this.solicitationToDelete.id}`);
+        await axios.delete(`${API_URL}/solicitations/${this.solicitationToDelete.id}`);
         this.fetchSolicitations();
         this.showDeleteModal = false;
         this.solicitationToDelete = null;
@@ -217,5 +224,5 @@ export default {
 </script>
 
 <style scoped>
-@import '@/css/TableClients.css';
+@import '@/css/Table.css';
 </style>

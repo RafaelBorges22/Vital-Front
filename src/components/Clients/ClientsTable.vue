@@ -2,7 +2,7 @@
   <div class="estoque-container">
     <!-- Cabeçalho -->
     <div class="header">
-      <div class="back-icon">
+      <div class="back-icon" @click="gohome()">
         <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
           <path d="M15 18L9 12L15 6" stroke="#000A1A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
         </svg>
@@ -108,25 +108,6 @@
           </tbody>
         </table>
       </div>
-
-      <!-- Paginação -->
-      <div class="pagination">
-        <div class="page-info">
-          <span>1</span>
-          <span>-</span>
-          <span>1</span>
-          <span>de 10 páginas</span>
-        </div>
-        <div class="page-controls">
-          <span>Página</span>
-          <div class="page-selector">
-            <span>1</span>
-            <svg width="20" height="21" viewBox="0 0 20 21" fill="none">
-              <path d="M10.0002 14.6666L3.3335 6.33325H16.6668L10.0002 14.6666Z" fill="#454545" />
-            </svg>
-          </div>
-        </div>
-      </div>
     </div>
   </div>
 </template>
@@ -136,7 +117,7 @@
 import ClientModal from '@/components/Clients/ClientModal.vue';
 import ClientEdit from '@/components/Clients/ClientEdit.vue';
 import DeleteClientModal from '@/components/Clients/ClientDelete.vue';
-import '@/css/TableClients.css';
+import '@/css/Table.css';
 import axios from 'axios';
 
 const API_URL = import.meta.env.VITE_API_URL;
@@ -310,6 +291,9 @@ async deleteClient(id) {
           opening_date: `${year.length === 2 ? '20' + year : year}-${month}-${day}`
         };
       },
+    gohome() {
+      this.$router.push({ name: 'dashboard-admin' });
+    },
     cancelEdit() {
       this.editClient = null;
     }
@@ -318,5 +302,5 @@ async deleteClient(id) {
 </script>
 
 <style>
-@import '@/css/TableClients.css'
+@import '@/css/Table.css'
 </style>

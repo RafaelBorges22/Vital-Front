@@ -1,39 +1,43 @@
 <template>
-  <div class="solicitation-single-container" v-if="solicitation">
-    <div class="header">
-      <div class="back-icon" @click="goBack()" style="cursor:pointer;">
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-          <path d="M15 18L9 12L15 6" stroke="#000A1A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-        </svg>
+  <div class="modal-overlay" v-if="solicitation">
+    <div class="modal-content solicitation-single-container">
+      <div class="header">
+        <div class="back-icon" @click="goBack()" style="cursor:pointer;">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+            <path d="M15 18L9 12L15 6" stroke="#000A1A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+          </svg>
+        </div>
+        <h2 class="modal-title">Editar Solicitação</h2>
       </div>
-      <h1>Editar Solicitação</h1>
+      <form @submit.prevent="updateSolicitation">
+        <div class="details">
+          <p><strong>ID:</strong> {{ solicitation.id || solicitation._id }}</p>
+          <p><strong>Nome do Cliente:</strong> {{ solicitation.client_name || '-' }}</p>
+          <label>
+            <strong>Status:</strong>
+            <select v-model="form.status">
+              <option value="PENDENTE">Pendente</option>
+              <option value="APROVADO">Aprovada</option>
+              <option value="REJEITADO">Rejeitada</option>
+            </select>
+          </label>
+          <label>
+            <strong>Motorista:</strong>
+            <select v-model="form.driver_id">
+              <option :value=null>Nenhum</option>
+              <option v-for="driver in drivers" :key="driver.id" :value="driver.id">
+                {{ driver.name }}
+              </option>
+            </select>
+          </label>
+          <p><strong>Data da Solicitação:</strong> {{ formatDate(solicitation.date_solicitation) }}</p>
+          <p><strong>Data da Coleta:</strong> {{ formatDate(solicitation.date_collected) }}</p>
+        </div>
+        <div class="modal-actions">
+          <button type="submit" class="btn-confirm">Confirmar Coleta</button>
+        </div>
+      </form>
     </div>
-    <form @submit.prevent="updateSolicitation">
-      <div class="details">
-        <p><strong>ID:</strong> {{ solicitation.id || solicitation._id }}</p>
-        <p><strong>Nome do Cliente:</strong> {{ solicitation.client_name || '-' }}</p>
-        <label>
-          <strong>Status:</strong>
-          <select v-model="form.status">
-            <option value="PENDENTE">Pendente</option>
-            <option value="APROVADO">Aprovada</option>
-            <option value="REJEITADO">Rejeitada</option>
-          </select>
-        </label>
-        <label>
-          <strong>Motorista:</strong>
-          <select v-model="form.driver_id">
-            <option :value=null>Nenhum</option>
-            <option v-for="driver in drivers" :key="driver.id" :value="driver.id">
-              {{ driver.name }}
-            </option>
-          </select>
-        </label>
-        <p><strong>Data da Solicitação:</strong> {{ formatDate(solicitation.date_solicitation) }}</p>
-        <p><strong>Data da Coleta:</strong> {{ formatDate(solicitation.date_collected) }}</p>
-      </div>
-      <button type="submit" class="btn-salvar">Confirmar Coleta</button>
-    </form>
   </div>
   <div v-else class="loading">
     Carregando solicitação...
@@ -43,6 +47,7 @@
 
 <script>
 import axios from 'axios';
+import '@/css/Modal.css';
 import CollectedConfirmed from '@/views/notifications/CollectedConfirmed.vue';
 const API_URL = import.meta.env.VITE_API_URL;
 
@@ -124,50 +129,3 @@ export default {
 };
 </script>
 
-<style scoped>
-.solicitation-single-container {
-  max-width: 600px;
-  margin: 40px auto;
-  background: #fff;
-  border-radius: 8px;
-  padding: 32px;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.07);
-}
-.header {
-  display: flex;
-  align-items: center;
-  gap: 16px;
-  margin-bottom: 24px;
-}
-.details p, .details label {
-  margin: 12px 0;
-  font-size: 1.1em;
-  display: block;
-}
-.details label select,
-.details label input {
-  margin-top: 6px;
-  padding: 6px;
-  font-size: 1em;
-  width: 100%;
-  box-sizing: border-box;
-}
-.btn-salvar {
-  margin-top: 24px;
-  padding: 10px 24px;
-  background: #007bff;
-  color: #fff;
-  border: none;
-  border-radius: 6px;
-  font-size: 1.1em;
-  cursor: pointer;
-}
-.btn-salvar:hover {
-  background: #0056b3;
-}
-.loading {
-  text-align: center;
-  margin-top: 60px;
-  font-size: 1.2em;
-}
-</style>

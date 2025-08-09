@@ -19,7 +19,7 @@
 </template>
 
 <script>
-import '@/css/ModalStock.css'
+import '@/css/Modal.css'
 
 export default {
   props: {

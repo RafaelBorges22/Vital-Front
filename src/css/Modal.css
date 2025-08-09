@@ -1,0 +1,139 @@
+/* Estilos globais para a sobreposição do modal */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.6);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+/* Estilos globais para o conteúdo do modal */
+.modal-content {
+  background: #fff;
+  padding: 40px;
+  border-radius: 12px;
+  width: 90%;
+  max-width: 500px;
+  max-height: 90vh; /* Adicionada altura máxima para permitir o scroll */
+  overflow-y: auto; /* Habilita a barra de rolagem vertical */
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  position: relative;
+  font-family: 'Inter', sans-serif;
+}
+
+.modal-content h2 {
+  font-family: 'Poppins', sans-serif;
+  font-weight: 600;
+  font-size: 24px;
+  color: #333;
+  margin-top: 0;
+  margin-bottom: 24px;
+  text-align: center;
+}
+
+/* Estilos globais para grupos de formulário */
+.form-group {
+  margin-bottom: 20px;
+}
+
+.form-group label {
+  display: block;
+  font-weight: 500;
+  margin-bottom: 8px;
+  color: #555;
+}
+
+.form-input,
+.form-select,
+.form-textarea {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #E0E0E0;
+  border-radius: 8px;
+  font-size: 16px;
+  color: #333;
+  transition: border-color 0.3s;
+  box-sizing: border-box;
+}
+
+.form-input:focus,
+.form-select:focus,
+.form-textarea:focus {
+  outline: none;
+  border-color: #05d875;
+  box-shadow: 0 0 0 2px rgba(0, 255, 0, 0.25);
+}
+
+.form-textarea {
+  resize: vertical;
+  min-height: 100px;
+}
+
+/* Estilos globais para botões de ação do modal */
+.modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  margin-top: 24px;
+}
+
+.btn-cancel,
+.btn-confirm,
+.btn-delete {
+  padding: 12px 24px;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 16px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border: none;
+}
+
+.btn-cancel {
+  background-color: #F0F0F0;
+  color: #555;
+}
+
+.btn-cancel:hover {
+  background-color: #E0E0E0;
+}
+
+.btn-confirm {
+  background-color: #6BB200;
+  color: #FFFFFF;
+}
+
+.btn-confirm:hover {
+  background-color: #5A9900;
+}
+
+.btn-delete {
+  background-color: #E53935;
+  color: #FFFFFF;
+}
+
+.btn-delete:hover {
+  background-color: #C62828;
+}
+
+/* Estilos específicos para o Modal de Solicitações */
+.solicitation-form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+@media (max-width: 600px) {
+  .modal-content {
+    padding: 24px;
+  }
+
+  .solicitation-form-grid {
+    grid-template-columns: 1fr;
+  }
+}

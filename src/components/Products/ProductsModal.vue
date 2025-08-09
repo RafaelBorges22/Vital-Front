@@ -81,7 +81,7 @@
 
 <script>
 import axios from 'axios';
-import '@/css/ModalStock.css'
+import '@/css/Modal.css'
 
 const API_URL = import.meta.env.VITE_API_URL;
 
@@ -136,7 +136,7 @@ export default {
 handleSubmit() {
   try {
     const formData = {
-      id: this.formData.id, // <-- adicione essa linha!
+      id: this.formData.id,
       name: this.formData.name?.toString().trim() || '',
       price: parseFloat(this.formData.price) || 0,
       quantity: parseInt(this.formData.quantity) || 0,
@@ -180,3 +180,6 @@ handleSubmit() {
   }
 }
 </script>
+<style scoped>
+@import '@/css/Modal.css';
+</style>
