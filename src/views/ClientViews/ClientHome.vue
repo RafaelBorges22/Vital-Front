@@ -2,7 +2,7 @@
   <div class="client-home-container">
     <ClientSidebar @navigate="navigateTo" />
     <div class="client-content">
-      <h1>Bem-vindo, {{ clientName }}!</h1>
+      <h1>Bem-vindo {{ clientName }}!</h1>
       <p>
         Pronto para contribuir com o meio ambiente? <br>
         Faça agora uma solicitação de coleta de óleo usado e ajude a transformar resíduos em sustentabilidade!
@@ -36,7 +36,7 @@ function handleSolicitation(payload) {
   isModalVisible.value = false
 }
 onMounted(() => {
-  const storedName = localStorage.getItem('user_name')
+  const storedName = localStorage.getItem('name')
   if (storedName) {
     clientName.value = storedName
   }

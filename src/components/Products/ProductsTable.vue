@@ -2,7 +2,7 @@
   <div class="estoque-container">
     <!-- Cabeçalho -->
     <div class="header">
-      <div class="back-icon">
+      <div class="back-icon" @click="gohome()">
         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
           <path d="M15 18L9 12L15 6" stroke="#000A1A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
         </svg>
@@ -126,31 +126,12 @@
           </tbody>
         </table>
       </div>
-
-      <!-- Paginação -->
-      <div class="pagination">
-        <div class="page-info">
-          <span>1</span>
-          <span>-</span>
-          <span>1</span>
-          <span>de 10 páginas</span>
-        </div>
-        <div class="page-controls">
-          <span>Página</span>
-          <div class="page-selector">
-            <span>1</span>
-            <svg width="20" height="21" viewBox="0 0 20 21" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M10.0002 14.6666L3.3335 6.33325H16.6668L10.0002 14.6666Z" fill="#454545"/>
-            </svg>
-          </div>
-        </div>
-      </div>
     </div>    
     </div>
 </template>
 
 <script>
-import '@/css/TableProducts.css';
+import '@/css/Table.css';
 import ProductModal from './ProductsModal.vue';
 import DeleteProductModal from './ProductsDelete.vue';
 import axios from 'axios';
@@ -283,6 +264,9 @@ async handleCreateProduct(formData) {
             startEdit(product) {
       this.editProduct = { ...product };
     },
+    gohome() {
+    this.$router.push({ name: 'dashboard-admin' });
+    },
     cancelEdit() {
       this.editProduct = null;
     }
@@ -297,5 +281,5 @@ async handleCreateProduct(formData) {
 </script>
 
 <style>
-@import '@/css/TableProducts.css'
+@import '@/css/Table.css'
 </style>

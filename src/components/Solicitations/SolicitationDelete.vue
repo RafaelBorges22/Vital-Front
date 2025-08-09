@@ -3,7 +3,7 @@
     <div class="modal-content">
       <h2 class="modal-title">Confirmar Exclusão</h2>
       <p style="margin-bottom: 32px; text-align: center;">
-        Tem certeza que deseja excluir <b>{{ clientName }}</b>?<br>
+        Tem certeza que deseja excluir a solicitação de <b>{{ solicitationName }}</b>?<br>
         Esta ação não poderá ser desfeita.
       </p>
       <div class="modal-actions">
@@ -27,7 +27,7 @@ export default {
       type: Boolean,
       default: false
     },
-    clientName: {
+    solicitationName: {
       type: String,
       default: ''
     }

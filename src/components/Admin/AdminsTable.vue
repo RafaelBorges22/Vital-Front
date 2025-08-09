@@ -93,7 +93,7 @@
 </template>
 
 <script setup>
-import '@/css/TableAdmins.css';
+import '@/css/Table.css';
 import AdminModal from '@/components/Admin/AdminModal.vue';
 import { ref, onMounted } from 'vue';
 import axios from '@/utils/axios.js';
@@ -208,5 +208,5 @@ onMounted(fetchAdmins);
 </script>
 
 <style scoped>
-@import '@/css/TableAdmins.css';
+@import '@/css/Table.css';
 </style>

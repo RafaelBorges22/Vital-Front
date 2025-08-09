@@ -1,0 +1,271 @@
+/* Estilos globais para a área principal da página */
+.estoque-container {
+  padding: 30px 40px;
+  background-color: #F7F9FC;
+  min-height: 100vh;
+}
+
+/* Estilos globais para cabeçalhos de página */
+.header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 24px;
+}
+
+.header h1 {
+  font-family: 'Poppins', sans-serif;
+  font-weight: 700;
+  font-size: 28px;
+  color: #000A1A;
+  margin: 0;
+  margin-left: 12px;
+}
+
+.back-icon {
+  width: 48px;
+  height: 48px;
+  background-color: #fff;
+  border-radius: 12px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  cursor: pointer;
+}
+
+/* Estilos globais para seções de conteúdo */
+.section {
+  background-color: #FFFFFF;
+  border-radius: 16px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.05);
+  padding: 24px;
+  margin-bottom: 24px;
+}
+
+.section-title h2 {
+  font-family: 'Poppins', sans-serif;
+  font-weight: 600;
+  font-size: 20px;
+  color: #333333;
+  margin-top: 0;
+  margin-bottom: 20px;
+}
+
+/* Botões de ação globais (fora da tabela) */
+.action-buttons {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  margin-bottom: 24px;
+}
+
+.new-product-btn,
+.export-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 20px;
+  border-radius: 10px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border: none;
+}
+
+.new-product-btn {
+  background-color: #6BB200;
+  color: #FFFFFF;
+}
+
+.new-product-btn:hover {
+  background-color: #5A9900;
+}
+
+.export-btn {
+  background-color: #f0f0f0;
+  color: #454545;
+  border: 1px solid #ddd;
+}
+
+.export-btn:hover {
+  background-color: #e0e0e0;
+}
+
+/* ------------------- Melhorias na Tabela ------------------- */
+
+.table-container {
+  overflow-x: auto;
+}
+
+table {
+  width: 100%;
+  min-width: 700px;
+  border-collapse: separate;
+  border-spacing: 0 12px;
+  table-layout: fixed;
+  font-family: 'Inter', sans-serif;
+}
+
+thead .header-row th {
+  background: #F8F8F8;
+  padding: 16px 20px;
+  border-bottom: 2px solid #E0E0E0;
+  text-align: left;
+  font-weight: 600;
+  font-size: 14px;
+  color: #333333;
+  white-space: nowrap;
+}
+
+tbody tr {
+  background: #FFFFFF;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+tbody tr:hover {
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+  transform: translateY(-2px);
+}
+
+td {
+  padding: 16px 20px;
+  text-align: left;
+  font-size: 14px;
+  color: #555555;
+  vertical-align: middle;
+  word-wrap: break-word;
+  border: none;
+}
+
+/* Ajusta as bordas das células para o estilo de cartão */
+tbody tr td:first-child {
+  border-top-left-radius: 12px;
+  border-bottom-left-radius: 12px;
+}
+
+tbody tr td:last-child {
+  border-top-right-radius: 12px;
+  border-bottom-right-radius: 12px;
+}
+
+.text-center {
+  text-align: center;
+  color: #888;
+  font-style: italic;
+  padding: 20px;
+}
+
+/* ------------------- Alinhamento e Tamanho de Colunas ------------------- */
+.col-nome, .col-client, .col-product, .col-address {
+  width: 25%;
+  text-align: left;
+}
+.col-email {
+  width: 30%;
+  text-align: left;
+}
+.col-cnpj {
+  width: 20%;
+  text-align: left;
+}
+.col-phone {
+  width: 15%;
+  text-align: left;
+}
+.col-status {
+  width: 15%;
+  text-align: center;
+}
+.col-data, .col-data-solicitacao {
+  width: 15%;
+  text-align: left;
+}
+.col-quantity, .col-price, .col-total {
+  width: 15%;
+  text-align: right;
+}
+.col-actions, .col-edit, .col-delete {
+  width: 10%;
+  text-align: center;
+}
+.col-admin-id, .col-solicitation-id {
+  width: 10%;
+  text-align: left;
+}
+
+/* Alinhamento dos headers de acordo com os dados */
+th.col-status, th.col-actions, th.col-edit, th.col-delete {
+  text-align: center;
+}
+th.col-quantity, th.col-price, th.col-total {
+  text-align: right;
+}
+
+/* Estilos para os status como "badges" */
+.status {
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-weight: 600;
+  font-size: 12px;
+  display: inline-block;
+  text-align: center;
+}
+
+.status-pendente {
+  background-color: #FFF3E0;
+  color: #FF9800;
+}
+
+.status-concluido {
+  background-color: #E8F5E9;
+  color: #4CAF50;
+}
+
+/* ------------------- Botões de ação da tabela ------------------- */
+.col-actions button,
+.col-edit button,
+.col-delete button {
+  all: unset; /* remove todo estilo padrão */
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.col-actions button svg,
+.col-edit button svg,
+.col-delete button svg {
+  width: 25px;
+  height: 25px;
+  color: #666;
+  transition: color 0.2s ease;
+}
+
+.col-actions button:hover svg,
+.col-edit button:hover svg,
+.col-delete button:hover svg {
+  color: #000;
+}
+
+/* Media Queries para responsividade */
+@media (max-width: 768px) {
+  .estoque-container {
+    padding: 15px;
+  }
+  .header h1 {
+    font-size: 24px;
+  }
+  .section {
+    padding: 15px;
+  }
+  .section-title h2 {
+    font-size: 18px;
+  }
+  .action-buttons {
+    flex-direction: column;
+    align-items: stretch;
+  }
+}

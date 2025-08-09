@@ -63,7 +63,7 @@
 </template>
 
 <script>
-import '@/css/ModalClients.css'
+import '@/css/Modal.css'
 
 export default {
   props: {
@@ -151,5 +151,5 @@ export default {
 </script>
 
 <style scoped>
-@import '@/css/ModalClients.css';
+@import '@/css/Modal.css';
 </style>

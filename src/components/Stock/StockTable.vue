@@ -2,7 +2,7 @@
   <div class="estoque-container">
     <!-- Cabeçalho -->
     <div class="header">
-      <div class="back-icon">
+      <div class="back-icon" @click="gohome()">
         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
           <path d="M15 18L9 12L15 6" stroke="#000A1A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
         </svg>
@@ -94,60 +94,46 @@
               </td>
               <td>{{ formatDate(stock.entry_date) }}</td>
               <td>{{ stock.end_date ? formatDate(stock.end_date) : 'N/A' }}</td>
-              <td>
+              <td class="col-edit">
                 <template v-if="editStock && editStock.id === stock.id">
                   <button @click="updateStock" class="btn-save">Salvar</button>
                   <button @click="cancelEdit" class="btn-cancel">Cancelar</button>
                 </template>
-                <div class="action-buttons">
-                  <button @click="startEdit(stock)" class="btn-icon" title="Editar">
-                    <svg width="28" height="28" viewBox="0 0 20 20" fill="none">
-                      <path d="M13.5858 3.58579C14.3668 2.80474 15.6332 2.80474 16.4142 3.58579C17.1953 4.36683 17.1953 5.63316 16.4142 6.41421L15.6213 7.20711L12.7929 4.37868L13.5858 3.58579Z" fill="#718096"/>
-                      <path d="M11.3787 5.79289L3 14.1716V17H5.82842L14.2071 8.62132L11.3787 5.79289Z" fill="#718096"/>
-                    </svg>
-                  </button>
-                  <button @click="deleteStock(stock.id)" class="btn-icon" title="Excluir">
-                    <svg width="28" height="28" viewBox="0 0 20 20" fill="none">
-                      <path d="M5 7V16C5 17.1046 5.89543 18 7 18H13C14.1046 18 15 17.1046 15 16V7" stroke="#718096" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                      <path d="M8 7V5C8 3.89543 8.89543 3 10 3H10.5C11.6046 3 12.5 3.89543 12.5 5V7" stroke="#718096" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                      <path d="M2 7H18" stroke="#718096" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                    </svg>
-                  </button>
-                </div>
+                <template v-else>
+                  <div class="action-buttons">
+                    <button @click="startEdit(stock)" class="btn-icon" title="Editar">
+                      <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                        <path d="M13.5858 3.58579C14.3668 2.80474 15.6332 2.80474 16.4142 3.58579C17.1953 4.36683 17.1953 5.63316 16.4142 6.41421L15.6213 7.20711L12.7929 4.37868L13.5858 3.58579Z" fill="#718096"/>
+                        <path d="M11.3787 5.79289L3 14.1716V17H5.82842L14.2071 8.62132L11.3787 5.79289Z" fill="#718096"/>
+                      </svg>
+                    </button>
+                    <button @click="deleteStock(stock.id)" class="btn-icon" title="Excluir">
+                      <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                        <path d="M5 7V16C5 17.1046 5.89543 18 7 18H13C14.1046 18 15 17.1046 15 16V7" stroke="#718096" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M8 7V5C8 3.89543 8.89543 3 10 3H10.5C11.6046 3 12.5 3.89543 12.5 5V7" stroke="#718096" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M2 7H18" stroke="#718096" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                      </svg>
+                    </button>
+                  </div>
+                </template>
               </td>
             </tr>
           </tbody>
         </table>
       </div>
-
-      <!-- Paginação -->
-      <div class="pagination">
-        <div class="page-info">
-          <span>1</span>
-          <span>-</span>
-          <span>1</span>
-          <span>de 10 páginas</span>
-        </div>
-        <div class="page-controls">
-          <span>Página</span>
-          <div class="page-selector">
-            <span>1</span>
-            <svg width="20" height="21" viewBox="0 0 20 21" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M10.0002 14.6666L3.3335 6.33325H16.6668L10.0002 14.6666Z" fill="#454545"/>
-            </svg>
-          </div>
-        </div>
-      </div>
+    </div>
+    <div v-if="stocks.length === 0" class="empty-state">
+      <p>Nenhum estoque encontrado.</p>
+      <button @click="openCreateModal" class="btn-create-stock">Criar Novo Estoque</button>
     </div>
   </div>
-
 </template>
 
 
 <script>
 import StockModal from '@/components/Stock/StockModal.vue';
 import DeleteStockModal from '@/components/Stock/StockDelete.vue';
-import '@/css/TableStock.css';
+import '@/css/Table.css';
 import axios from 'axios';
 const API_URL = import.meta.env.VITE_API_URL;
 
@@ -215,7 +201,7 @@ async handleCreateStock(formData) {
     };
 
 
-    const response = await axios.post(`${API_URL}/stock/`, payload);
+    const response = await axios.post(`${API_URL}/stocks/`, payload);
 
     if (response?.data?.success) {
       this.fetchStocks();
@@ -231,7 +217,7 @@ async handleCreateStock(formData) {
 
     async handleUpdateStock(formData) {
       try {
-        await axios.put(`${API_URL}/stock/${formData.id}`, {
+        await axios.put(`${API_URL}/stocks/${formData.id}`, {
           name: formData.name,
           quantity_products: formData.quantity_products,
           end_date: formData.end_date
@@ -254,7 +240,7 @@ async handleCreateStock(formData) {
      async deleteStockConfirmed() {
       if (!this.stockToDelete) return;
       try {
-        await axios.delete(`${API_URL}/stock/${this.stockToDelete.id}`);
+        await axios.delete(`${API_URL}/stocks/${this.stockToDelete.id}`);
         this.fetchStocks();
         this.showDeleteModal = false;
         this.stockToDelete = null;
@@ -264,7 +250,10 @@ async handleCreateStock(formData) {
         this.stockToDelete = null;
       }
     },
-    
+    gohome() {
+    this.$router.push({ name: 'dashboard-admin' });
+    },
+
     startEdit(stock) {
       this.editStock = { 
         ...stock,
@@ -279,5 +268,5 @@ async handleCreateStock(formData) {
 }
 </script>
 <style>
-@import '@/css/TableStock.css'
+@import '@/css/Table.css'
 </style>

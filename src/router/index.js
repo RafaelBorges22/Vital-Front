@@ -58,12 +58,14 @@ const routes = [
   {
     path: '/dashboard-admin',
     name: 'dashboard-admin',
-    component: AdminHome
+    component: AdminHome,
+    meta: { requiresAuth: true, role: 'admin', level: 'Master' }
   },
   {
     path: '/dashboard-client',
     name: 'dashboard-cliente',
-    component: ClientHome
+    component: ClientHome,
+    meta: { requiresAuth: true, role: 'client' }
   },
 
   // Rotas de administração
