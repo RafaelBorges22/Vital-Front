@@ -12,7 +12,7 @@
 </template>
 
 <script setup>
-import AdminSidebar from '@/components/Admin/Sidebar.vue'
+import AdminSidebar from '@/components/Admin/SideBar.vue'
 import AdminsTable from '@/components/Admin/AdminsTable.vue'
 import ClientList from '@/components/Clients/ClientsTable.vue'
 import { useRouter } from 'vue-router'
