@@ -21,7 +21,7 @@
 
 <script setup>
 import SolicitationModal from '@/components/Solicitations/SolicitationModal.vue';
-import ClientSidebar from '@/components/Clients/Sidebar.vue'
+import ClientSidebar from '@/components/Clients/SideBar.vue'
 import { useRouter } from 'vue-router'
 import { ref, onMounted } from 'vue'
 
