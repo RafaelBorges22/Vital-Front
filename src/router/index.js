@@ -64,8 +64,7 @@ const routes = [
   {
     path: '/dashboard-client',
     name: 'dashboard-cliente',
-    component: ClientHome,
-    meta: { requiresAuth: true, role: 'client' }
+    component: ClientHome
   },
 
   // Rotas de administração
