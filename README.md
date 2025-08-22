@@ -1,5 +1,35 @@
-# Vue 3 + Vite
+# ♻️ VITAL RECICLAGEM - Gerenciamento de Reciclagem de Óleo
 
-This template should help get you started developing with Vue 3 in Vite. The template uses Vue 3 `<script setup>` SFCs, check out the [script setup docs](https://v3.vuejs.org/api/sfc-script-setup.html#sfc-script-setup) to learn more.
+Bem-vindo ao **VITAL**, a plataforma que revoluciona o gerenciamento de uma empresa de reciclagem de óleo. Este projeto foi desenvolvido para otimizar e centralizar as operações, desde a coleta até o processamento, garantindo um processo eficiente e sustentável. 🚀
 
-Learn more about IDE Support for Vue in the [Vue Docs Scaling up Guide](https://vuejs.org/guide/scaling-up/tooling.html#ide-support).
+## 🌟 Recursos Principais
+
+- **📦 Gerenciamento de Estoque:** Controle total sobre os produtos e o estoque de óleo reciclado.
+- **🚚 Gerenciamento de Entregas:** Roteamento e acompanhamento de motoristas e entregas de óleo.
+- **👥 Gerenciamento de Usuários:** Perfis distintos para clientes, motoristas e administradores, cada um com suas próprias funcionalidades.
+- **✉️ Notificações por E-mail:** Mantenha todos informados sobre o status das solicitações e outras atualizações importantes.
+- **📈 Gerenciamento de Solicitações:** Sistema robusto para lidar com solicitações de coleta de óleo.
+
+## 🚀 Como Executar o Projeto no terminal GitBash
+
+1.  **Clone o repositório:**
+    ```
+    git clone https://github.com/RafaelBorges22/Vital-Front.git
+    cd Vital-Front
+    ```
+2. **Acesse pelo VS code: **
+    ```
+    code .
+    ```
+
+3. **Execute o comando pelo terminal GitBash:**
+    ```
+    npm install
+    ```
+4. **Logo após digite o comando:**
+    ```
+    npm run dev
+    ```
+
+- **👥 Acesso como Cliente:**
+  - Para se cadastrar e utilizar a plataforma como cliente, use seu e-mail pessoal para melhor experiencia, se preferir as outras informações preenche de forma ficticia.
