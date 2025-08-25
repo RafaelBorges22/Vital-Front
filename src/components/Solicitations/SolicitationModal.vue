@@ -47,7 +47,6 @@ export default {
     return {
       form: {
         client_id: '', 
-        status: '',
         description: '',
         date_collected: ''
       },

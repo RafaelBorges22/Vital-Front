@@ -14,6 +14,7 @@ import LoginDriver from '../views/auth/LoginDriver.vue'
 import AccessDenied from '../views/errors/404.vue'
 import ClientsListView from '../views/AdminViews/ClientsListView.vue'
 import ClientHome from '../views/ClientViews/ClientHome.vue'
+import ClientInfo from '../views/ClientViews/ClientInfo.vue'
 import SolicitationsView from '../views/AdminViews/SolicitationsListView.vue'
 import SolicitationSingle from '../components/Solicitations/SolicitationSingle.vue'
 
@@ -110,6 +111,13 @@ const routes = [
     component: SolicitationSingle,
     props: true,
     meta: { requiresAuth: true, role: 'admin' }
+  },
+
+  //Rotas de cliente
+  {
+    path: '/info-cliente',
+    name: 'info-cliente',
+    component: ClientInfo,
   },
   // Rotas de erro
   {

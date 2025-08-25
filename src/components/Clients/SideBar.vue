@@ -4,7 +4,7 @@
       <img src="@/assets/logo.png" alt="Logo" class="sidebar-logo" />
     </div>
     <ul class="sidebar-menu">
-      <li @click="$emit('navigate', '/conta')" class="sidebar-item">
+      <li @click="$emit('navigate', '/info-cliente')" class="sidebar-item">
         <span>👤</span> Informações da Conta
       </li>
       <li @click="logout" class="sidebar-item">
