@@ -17,6 +17,8 @@ import ClientHome from '../views/ClientViews/ClientHome.vue'
 import ClientInfo from '../views/ClientViews/ClientInfo.vue'
 import SolicitationsView from '../views/AdminViews/SolicitationsListView.vue'
 import SolicitationSingle from '../components/Solicitations/SolicitationSingle.vue'
+import DriverHome from '../views/DriversViews/DriverHome.vue'
+import DriverInfo from '../views/DriversViews/DriverInfo.vue'
 
 const routes = [
   // Rotas de autenticação e cadastro
@@ -66,6 +68,11 @@ const routes = [
     path: '/dashboard-client',
     name: 'dashboard-cliente',
     component: ClientHome
+  },
+  {
+    path: '/dashboard-driver',
+    name: 'dashboard-motorista',
+    component: DriverHome
   },
 
   // Rotas de administração
@@ -118,6 +125,11 @@ const routes = [
     path: '/info-cliente',
     name: 'info-cliente',
     component: ClientInfo,
+  },
+  {
+    path: '/info-motorista',
+    name: 'info-motorista',
+    component: DriverInfo,
   },
   // Rotas de erro
   {

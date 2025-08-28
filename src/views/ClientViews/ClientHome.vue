@@ -36,7 +36,7 @@ function handleSolicitation(payload) {
   isModalVisible.value = false
 }
 onMounted(() => {
-  const storedName = localStorage.getItem('name')
+  const storedName = localStorage.getItem('client_name')
   if (storedName) {
     clientName.value = storedName
   }

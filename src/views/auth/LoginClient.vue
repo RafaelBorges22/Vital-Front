@@ -138,6 +138,7 @@ async function fazerLogin() {
     
     localStorage.setItem('token', data.access_token); 
     localStorage.setItem('client_id', decodedToken.id);
+    localStorage.setItem('client_name', decodedToken.name);
 
 
     console.log('Login bem-sucedido! Token JWT do Cliente:', data.access_token);

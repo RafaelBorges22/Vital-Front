@@ -91,7 +91,7 @@ import { jwtDecode } from 'jwt-decode';
 
 const credenciais = reactive({
   cnh: '',
-  senha: ''
+  senha: '',
 })
 
 const showPassword = ref(false)
@@ -119,7 +119,7 @@ async function fazerLogin() {
   try {
     const response = await axios.post('/drivers/login-motorista', { 
       cnh: credenciais.cnh,
-      password: credenciais.senha
+      password: credenciais.senha,
     })
 
     const data = response.data
@@ -128,7 +128,10 @@ async function fazerLogin() {
     
     localStorage.setItem('access_token', data.access_token);
     localStorage.setItem('user_id', decodedToken.id); 
+    localStorage.setItem('user_name', decodedToken.name);
     localStorage.setItem('user_role', decodedToken.role || 'driver');
+
+    console.log(decodedToken);
     
     router.push('/dashboard-driver') 
 

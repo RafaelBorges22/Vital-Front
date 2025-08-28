@@ -1,16 +1,18 @@
 <template>
   <div class="driver-home-container">
-    <DriverSidebar @navigate="navigateTo" />
+    <Sidebar @navigate="navigateTo" />
     <div class="driver-content">
       <h1>Bem-vindo, {{ driverName }}!</h1>
       <p>Selecione uma opção no menu ao lado para começar.</p>
+      <SolicitationTable />
       <router-view />
     </div>
   </div>
 </template>
 
 <script setup>
-import DriverSidebar from '@/components/Drivers/DriverSidebar.vue'
+import Sidebar from '@/components/Driver/Sidebar.vue'
+import SolicitationTable from '@/components/Driver/SolicitationsDriver.vue'
 import { useRouter } from 'vue-router'
 import { ref, onMounted } from 'vue'
 
