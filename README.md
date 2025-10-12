@@ -31,5 +31,5 @@ Bem-vindo ao **VITAL**, a plataforma que revoluciona o gerenciamento de uma empr
     npm run dev
     ```
 
-- **👥 Acesso como Cliente:**
+- **👥Acesso como Cliente:**
   - Para se cadastrar e utilizar a plataforma como cliente, use seu e-mail pessoal para melhor experiencia, se preferir as outras informações preenche de forma ficticia.
