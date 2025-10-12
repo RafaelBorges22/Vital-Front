@@ -17,7 +17,7 @@ Bem-vindo ao **VITAL**, a plataforma que revoluciona o gerenciamento de uma empr
     git clone https://github.com/RafaelBorges22/Vital-Front.git
     cd Vital-Front
     ```
-2. **Acesse pelo VS code: **
+2. **Acesse pelo VS code:**
     ```
     code .
     ```
