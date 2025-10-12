@@ -84,7 +84,7 @@ async submitForm() {
         this.$emit('confirm', response.data);
         this.$emit('close');
     } catch (e) {
-        console.error('Erro ao criar solicitação:', e);
+        console.error ('Erro ao criar solicitação:', e);
         this.$emit('error', e.message); 
     }
 }
