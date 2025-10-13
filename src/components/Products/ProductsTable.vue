@@ -99,12 +99,12 @@
               </td>
               <td>
                 <span :class="getLevelClass(product.quantity)">
-                    {{ getLevelByQuantity(product.quantity) }}
+                  {{ getLevelByQuantity(product.quantity) }}
                 </span>
                </td>
               <td>
                 {{ product.stock?.name || product.stockName || 'N/A' }}
-            </td>
+              </td>
               <td class="col-edit">
                 <div class="action-buttons">
                   <button @click="startEdit(product)" class="btn-icon" title="Editar">
@@ -214,7 +214,6 @@ async handleCreateProduct(formData) {
     alert(error.message);
   }
 },
-
     async handleUpdateProduct(formData) {
       try {
         await axios.put(`${API_URL}/products/${formData.id}`, {
@@ -261,7 +260,7 @@ async handleCreateProduct(formData) {
         if (quantity >= 6 && quantity <= 12) return 'level-moderado';
         return 'level-boa';
         },
-            startEdit(product) {
+    startEdit(product) {
       this.editProduct = { ...product };
     },
     gohome() {

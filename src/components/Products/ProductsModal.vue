@@ -171,7 +171,7 @@ handleSubmit() {
     },
     async fetchStocks() {
       try {
-        const res = await axios.get(`${API_URL}/stock`);
+        const res = await axios.get(`${API_URL}/stocks`);
         this.stocks = res.data.data || [];
       } catch (e) {
         this.stocks = [];

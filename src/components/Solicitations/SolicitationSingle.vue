@@ -31,7 +31,7 @@
             </select>
           </label>
           <p><strong>Data da Solicitação:</strong> {{ formatDate(solicitation.date_solicitation) }}</p>
-          <p><strong>Data da Coleta:</strong> {{ formatDate(solicitation.date_collected) }}</p>
+          <p><strong>Data da Coleta:</strong> {{ formatDateTime(solicitation.date_collected) }}</p>
         </div>
         <div class="modal-actions">
           <button type="submit" class="btn-confirm">Confirmar Coleta</button>
@@ -103,6 +103,21 @@ export default {
       } catch (e) {
         return dateString;
       }
+    },
+    formatDateTime(dateString) {
+        if (!dateString) return '-';
+        try {
+            const date = new Date(dateString);
+            return date.toLocaleTimeString('pt-BR', { 
+                day: '2-digit', 
+                month: '2-digit', 
+                year: 'numeric',
+                hour: '2-digit', 
+                minute: '2-digit'
+            }).replace(',', ' às'); 
+        } catch (e) {
+            return dateString;
+        }
     },
     goBack() {
       this.$router.back();

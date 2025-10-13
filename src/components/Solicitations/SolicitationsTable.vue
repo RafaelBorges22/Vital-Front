@@ -38,9 +38,15 @@
           @click="goToSolicitation(solicitation.id)"
         >
           <td class="col-nome">{{ solicitation.client_name || '-' }}</td>
-          <td class="col-address">{{ solicitation.status || '-' }}</td>
-          <td class="col-nome">{{ formatDate(solicitation.date_solicitation) }}</td>
-          <td class="col-nome">{{ formatDate(solicitation.date_collected) }}</td>
+          <td class="col-address">
+              <span :class="getStatusClass(solicitation.status)">
+                  {{ solicitation.status || '-' }}
+              </span>
+          </td>          
+          <td class="col-nome">
+            {{ formatDate(solicitation.date_solicitation) }}
+          </td>
+            <td class="col-nome">{{ formatDateTime(solicitation.date_collected) }}</td>
           <td class="col-edit">
             <div class="action-buttons">
               <button @click.stop="deleteSolicitation(solicitation.id)" class="btn-icon" title="Excluir">
@@ -99,6 +105,21 @@ export default {
         return dateString;
       }
     },
+    formatDateTime(dateString) {
+        if (!dateString) return '-';
+        try {
+            const date = new Date(dateString);
+            return date.toLocaleTimeString('pt-BR', { 
+                day: '2-digit', 
+                month: '2-digit', 
+                year: 'numeric',
+                hour: '2-digit', 
+                minute: '2-digit'
+            }).replace(',', ' às'); // Formato: DD/MM/AAAA às HH:MM
+        } catch (e) {
+            return dateString;
+        }
+    },
 
     openCreateModal() {
       this.showCreateModal = true;
@@ -136,6 +157,22 @@ export default {
         console.error('Erro ao buscar solicitações:', e);
         this.solicitations = [];
       }
+    },
+
+    getStatusClass(status) {
+        if (!status) return 'status-default';
+        const normalizedStatus = status.toUpperCase();
+        
+        switch (normalizedStatus) {
+            case 'PENDENTE':
+                return 'status-pendente'; 
+            case 'APROVADO':
+                return 'status-aprovado'; 
+            case 'REJEITADO':
+                return 'status-cancelado'; 
+            default:
+                return 'status-default';
+        }
     },
 
     async handleCreateSolicitation(formData) {
