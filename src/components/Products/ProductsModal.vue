@@ -29,7 +29,7 @@
         </div>
 
         <div class="form-group">
-          <label for="product-quantity">Quantidade:</label>
+          <label for="product-quantity">Saldo (Estoque Atual):</label>
           <input
             id="product-quantity"
             v-model.number="formData.quantity"
@@ -40,6 +40,47 @@
             placeholder="0"
           >
         </div>
+        
+        <div class="form-group">
+          <label for="product-min-stock">Estoque Mínimo (Min_Stock):</label>
+          <input
+            id="product-min-stock"
+            v-model.number="formData.min_stock"
+            type="number"
+            min="0"
+            required
+            class="form-input"
+            placeholder="0"
+          >
+        </div>
+
+        <div class="form-group">
+          <label for="product-med-stock">Estoque Moderado (Med_Stock):</label>
+          <input
+            id="product-med-stock"
+            v-model.number="formData.med_stock"
+            type="number"
+            min="0"
+            required
+            class="form-input"
+            placeholder="0"
+          >
+        </div>
+
+        <div class="form-group">
+          <label for="product-value-total">Valor Total:</label>
+          <input
+            id="product-value-total"
+            v-model.number="formData.value_total"
+            type="number"
+            min="0"
+            step="0.01"
+            required
+            class="form-input"
+            placeholder="0.00"
+          >
+        </div>
+        
         <div class="form-group">
           <label for="product-stock">Estoque:</label>
           <select
@@ -102,8 +143,9 @@ export default {
         name: '',
         price: 0,
         quantity: 0,
-        description: '',
-        stockId: ''
+        min_stock: 0, 
+        med_stock: 0,
+        value_total: 0,
       })
     }
   },
@@ -140,8 +182,9 @@ handleSubmit() {
       name: this.formData.name?.toString().trim() || '',
       price: parseFloat(this.formData.price) || 0,
       quantity: parseInt(this.formData.quantity) || 0,
-      description: this.formData.description?.toString().trim() || '',
-      stockId: this.formData.stockId || null
+      min_stock: parseInt(this.formData.min_stock) || 0,
+      med_stock: parseInt(this.formData.med_stock) || 0,
+      value_total: parseFloat(this.formData.value_total) || 0,
     };
 
     if (!formData.name) throw new Error('Nome é obrigatório');

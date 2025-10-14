@@ -115,7 +115,7 @@ export default {
                 year: 'numeric',
                 hour: '2-digit', 
                 minute: '2-digit'
-            }).replace(',', ' às'); // Formato: DD/MM/AAAA às HH:MM
+            }).replace(',', ' às'); 
         } catch (e) {
             return dateString;
         }
@@ -209,10 +209,8 @@ export default {
     async handleUpdateSolicitation(formData) {
       try {
         const payload = {
-          client_name: formData.client_name,
-          status: formData.status,
-          date_solicitation: formData.date_solicitation,
-          date_collected: formData.date_collected
+          status: formData.status, 
+          driver_id: formData.driver_id || null,
         };
 
         await axios.put(`${API_URL}/solicitations/${formData.id}`, payload);
