@@ -16,9 +16,6 @@
       <li @click="$emit('navigate', '/lista-produtos')" class="sidebar-item">
         <span>📦</span> Produtos
       </li>
-      <li @click="$emit('navigate', '/lista-estoques')" class="sidebar-item">
-        <span>🏷️</span> Estoque
-      </li>
       <li @click="$emit('navigate', '/lista-solicitacoes')" class="sidebar-item">
     <span>📑</span> Solicitações
   </li>

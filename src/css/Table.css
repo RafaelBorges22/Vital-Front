@@ -234,31 +234,44 @@ th.col-quantity, th.col-price, th.col-total {
     border: 1px solid #EF9A9A;
 }
 
+/* Seletor genérico para os badges de Nível de Estoque */
 .product-row td:nth-child(4) span {
+    /* Base style for all badges (Pode ser ajustado para ser mais genérico se preferir) */
     display: inline-block;
-    padding: 6px 12px; /* Aumentado um pouco o padding para parecer um status */
-    border-radius: 20px; /* Borda arredondada para parecer um badge */
+    padding: 6px 12px;
+    border-radius: 20px;
     font-size: 12px;
     font-weight: 600;
     text-align: center;
+    min-width: 90px; /* Garante que todos tenham uma largura mínima */
 }
 
-.product-row td:nth-child(4) span.level-boa {
-    background-color: #e6ffed; /* Fundo Verde claro visível */
+/* 1. ESTOQUE BOM / ALTO */
+.level-boa {
+    background-color: #e6ffed; /* Fundo Verde claro */
     color: #0c5e32; /* Texto Verde escuro */
     border: 1px solid #9ae6b4;
 }
 
-.product-row td:nth-child(4) span.level-moderado {
-    background-color: #fffac2; /* Fundo Amarelo claro visível */
+/* 2. ESTOQUE MODERADO */
+.level-moderado {
+    background-color: #fffac2; /* Fundo Amarelo/Creme claro */
     color: #d69e2e; /* Texto Laranja escuro */
     border: 1px solid #f6e05e;
 }
 
-.product-row td:nth-child(4) span.level-baixa {
-    background-color: #fee2e2; /* Fundo Vermelho claro visível */
+/* 3. ESTOQUE BAIXO / BAIXA QUANTIDADE */
+.level-baixa {
+    background-color: #fee2e2; /* Fundo Vermelho claro */
     color: #e53e3e; /* Texto Vermelho escuro */
     border: 1px solid #fc8181;
+}
+
+/* Opcional: Estilo para casos que não se encaixam */
+.level-default {
+    background-color: #edf2f7;
+    color: #4a5568;
+    border: 1px solid #a0aec0;
 }
 
 

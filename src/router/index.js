@@ -6,7 +6,6 @@ import CadastroAdmin from '../views/register/CadastroAdmin.vue'
 import AdminHome from '../views/AdminViews/AdminHome.vue'
 import EmailPage from '../views/AdminViews/EmailView.vue'
 import CertificatePage from '../views/AdminViews/CertificateView.vue'
-import StockView from '../views/AdminViews/StockView.vue'         
 import ProductsView from '../views/AdminViews/ProductsView.vue'   
 import LoginAdmin from '../views/auth/LoginAdmin.vue'
 import LoginClient from '../views/auth/LoginClient.vue'
@@ -92,12 +91,6 @@ const routes = [
     path: '/lista-clientes',
     name: 'lista-clientes',
     component: ClientsListView,
-    meta: { requiresAuth: true, role: 'admin' } 
-  },
-  {
-    path: '/lista-estoques',
-    name: 'lista-estoques',
-    component: StockView,
     meta: { requiresAuth: true, role: 'admin' } 
   },
   {
