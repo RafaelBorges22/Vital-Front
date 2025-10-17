@@ -246,33 +246,37 @@ th.col-quantity, th.col-price, th.col-total {
     min-width: 90px; /* Garante que todos tenham uma largura mínima */
 }
 
-/* 1. ESTOQUE BOM / ALTO */
-.level-boa {
-    background-color: #e6ffed; /* Fundo Verde claro */
-    color: #0c5e32; /* Texto Verde escuro */
-    border: 1px solid #9ae6b4;
-}
-
-/* 2. ESTOQUE MODERADO */
-.level-moderado {
-    background-color: #fffac2; /* Fundo Amarelo/Creme claro */
-    color: #d69e2e; /* Texto Laranja escuro */
-    border: 1px solid #f6e05e;
-}
-
-/* 3. ESTOQUE BAIXO / BAIXA QUANTIDADE */
 .level-baixa {
-    background-color: #fee2e2; /* Fundo Vermelho claro */
-    color: #e53e3e; /* Texto Vermelho escuro */
-    border: 1px solid #fc8181;
+  background-color: #FED7D7; /* vermelho claro */
+  color: #C53030;
+  font-weight: 600;
+  padding: 4px 8px;
+  border-radius: 8px;
 }
 
-/* Opcional: Estilo para casos que não se encaixam */
-.level-default {
-    background-color: #edf2f7;
-    color: #4a5568;
-    border: 1px solid #a0aec0;
+.level-moderado {
+  background-color: #C6F6D5; /* verde claro */
+  color: #2F855A;
+  font-weight: 600;
+  padding: 4px 8px;
+  border-radius: 8px;
 }
+.level-boa {
+  background-color: #FEEBC8; /* amarelo claro */
+  color: #B7791F;
+  font-weight: 600;
+  padding: 4px 8px;
+  border-radius: 8px;
+}
+
+.level-default {
+  background-color: #E2E8F0;
+  color: #2D3748;
+  font-weight: 500;
+  padding: 4px 8px;
+  border-radius: 8px;
+}
+
 
 
 /* ------------------- Botões de ação da tabela ------------------- */

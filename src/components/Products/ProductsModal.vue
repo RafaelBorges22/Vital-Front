@@ -29,10 +29,10 @@
         </div>
 
         <div class="form-group">
-          <label for="product-quantity">Saldo (Estoque Atual):</label>
+          <label for="product-saldo">Saldo (Estoque Atual):</label>
           <input
-            id="product-quantity"
-            v-model.number="formData.quantity"
+            id="product-saldo"
+            v-model.number="formData.saldo"
             type="number"
             min="0"
             required
@@ -67,46 +67,6 @@
           >
         </div>
 
-        <div class="form-group">
-          <label for="product-value-total">Valor Total:</label>
-          <input
-            id="product-value-total"
-            v-model.number="formData.value_total"
-            type="number"
-            min="0"
-            step="0.01"
-            required
-            class="form-input"
-            placeholder="0.00"
-          >
-        </div>
-        
-        <div class="form-group">
-          <label for="product-stock">Estoque:</label>
-          <select
-            id="product-stock"
-            v-model="formData.stockId"
-            required
-            class="form-input"
-          >
-            <option value="" disabled>Selecione um estoque</option>
-            <option v-for="stock in stocks" :key="stock.id" :value="stock.id">
-              {{ stock.name }}
-            </option>
-          </select>
-        </div>
-
-        <div class="form-group">
-        <label for="product-description">Descrição:</label>
-        <textarea
-            id="product-description"
-            v-model.trim="formData.description"
-            required
-            class="form-input"
-            placeholder="Digite a descrição do produto"
-        ></textarea>
-        </div>
-
         <div class="modal-actions">
           <button type="button" @click="closeModal" class="btn-cancel">
             Cancelar
@@ -125,8 +85,10 @@ import axios from 'axios';
 import '@/css/Modal.css'
 
 const API_URL = import.meta.env.VITE_API_URL;
+const PRODUCT_API = `${API_URL}/products/`;
 
 export default {
+  emits: ['close', 'product-created', 'product-updated', 'api-error'],
   props: {
     visible: Boolean,
     title: {
@@ -140,19 +102,18 @@ export default {
     initialData: {
       type: Object,
       default: () => ({
+        id: null,
         name: '',
         price: 0,
-        quantity: 0,
+        saldo: 0,
         min_stock: 0, 
         med_stock: 0,
-        value_total: 0,
       })
     }
   },
   data() {
     return {
       formData: { ...this.initialData },
-      stocks: []
     }
   },
   watch: {
@@ -162,12 +123,6 @@ export default {
       },
       deep: true,
       immediate: true
-    },
-    visible: {
-      handler(val) {
-        if (val) this.fetchStocks();
-      },
-      immediate: true
     }
   },
   methods: {
@@ -175,51 +130,46 @@ export default {
       this.$emit('close');
       this.resetForm();
     },
-handleSubmit() {
-  try {
-    const formData = {
-      id: this.formData.id,
-      name: this.formData.name?.toString().trim() || '',
-      price: parseFloat(this.formData.price) || 0,
-      quantity: parseInt(this.formData.quantity) || 0,
-      min_stock: parseInt(this.formData.min_stock) || 0,
-      med_stock: parseInt(this.formData.med_stock) || 0,
-      value_total: parseFloat(this.formData.value_total) || 0,
-    };
+    async handleSubmit() {
+      try {
+        const dataForPost = {
+          name: this.formData.name?.toString().trim() || '',
+          price: parseFloat(this.formData.price) || 0,
+          saldo: Math.round(this.formData.saldo) || 0,
+          min_stock: Math.round(this.formData.min_stock) || 0,
+          med_stock: Math.round(this.formData.med_stock) || 0,
+        };
 
-    if (!formData.name) throw new Error('Nome é obrigatório');
-    if (isNaN(formData.price) || formData.price <= 0) throw new Error('Preço inválido');
-    if (isNaN(formData.quantity) || formData.quantity < 0) throw new Error('Quantidade inválida');
+        if (!dataForPost.name) throw new Error('Nome é obrigatório');
+        if (isNaN(dataForPost.price) || dataForPost.price <= 0) throw new Error('Preço inválido');
+        if (isNaN(dataForPost.saldo) || dataForPost.saldo < 0) throw new Error('Saldo inválido');
 
-    this.$emit('submit', formData);
-  } catch (error) {
-    console.error('Erro no formulário:', error);
-    alert(error.message);
-  }
-},
+        let res;
+        const emittedName = dataForPost.name; 
 
-    validateForm() {
-        return (
-            this.formData.name?.trim() !== '' &&
-            !isNaN(parseFloat(this.formData.price)) &&
-            parseFloat(this.formData.price) >= 0 &&
-            !isNaN(parseInt(this.formData.quantity)) &&
-            parseInt(this.formData.quantity) >= 0 &&
-            this.formData.description?.trim() !== '' &&
-            this.formData.stockId
-        );
-},
+        if (this.formData.id) {
+          res = await axios.put(`${PRODUCT_API}/${this.formData.id}`, dataForPost);
+          this.$emit('product-updated', { ...res.data, name: emittedName }); 
+        } else {
+          res = await axios.post(PRODUCT_API, dataForPost);
+          this.$emit('product-created', { ...res.data, name: emittedName }); 
+        }
+
+        this.closeModal();
+        
+      } catch (error) {
+        const errorMessage = error.response 
+          ? (error.response.data?.error || error.response.data?.message || 'Erro de servidor desconhecido.')
+          : (error.message || 'Erro de rede.');
+          
+        console.error('Erro ao salvar o produto:', errorMessage);
+        
+        this.$emit('api-error', errorMessage);
+      }
+    },
     resetForm() {
       this.formData = { ...this.initialData };
     },
-    async fetchStocks() {
-      try {
-        const res = await axios.get(`${API_URL}/stocks`);
-        this.stocks = res.data.data || [];
-      } catch (e) {
-        this.stocks = [];
-      }
-    }
   }
 }
 </script>

@@ -4,7 +4,6 @@
       <div class="back-icon" @click="gohome()" style="cursor:pointer;">
         <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
           <path d="M15 18L9 12L15 6" stroke="#000A1A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-          <path d="M15 18L9 12L15 6" stroke="#000A1A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
         </svg>
       </div>
       <h1>Gestão de Produtos</h1>
@@ -13,27 +12,33 @@
     <div class="section">
       <div class="section-title">
         <h2>Estoque de Produtos</h2>
-        <button class="btn-primary" @click="openCreateModal">
-            Criar Produto
+        <button class="new-product-btn" @click="openCreateModal">
+          Criar Produto +
         </button>
       </div>
+
       <div class="table-container">
         <table style="width:100%; border-collapse:collapse;">
           <thead>
             <tr class="header-row">
-              <th class="col-nome">Nome</th>
-              <th class="col-nome">Preço</th>
-              <th class="col-nome">Saldo</th>
-              <th class="col-nome">Nível de Estoque</th>
-              <th class="col-edit">Ações</th>
+              <th>Nome</th>
+              <th>Preço</th>
+              <th>Saldo</th>
+              <th>Estoque Mínimo</th>
+              <th>Estoque Médio</th>
+              <th>Valor Total</th>
+              <th>Nível de Estoque</th>
+              <th>Ações</th>
             </tr>
           </thead>
+
           <tbody>
             <tr v-if="products.length === 0">
-              <td colspan="6" class="text-center">
+              <td colspan="8" class="text-center">
                 {{ products.length === 0 && !loading ? 'Nenhum produto encontrado' : 'Carregando produtos...' }}
               </td>
             </tr>
+
             <tr v-for="product in products" :key="product.id" class="product-row">
               <td>
                 <template v-if="editProduct && editProduct.id === product.id">
@@ -43,58 +48,87 @@
                   {{ product.name || 'Sem nome' }}
                 </template>
               </td>
+
               <td>
                 <template v-if="editProduct && editProduct.id === product.id">
                   <input v-model.number="editProduct.price" type="number" class="form-input" />
                 </template>
                 <template v-else>
-                  R${{ product.price | currency }}
+                  R$ {{ product.price | currency }}
                 </template>
               </td>
+
               <td>
                 <template v-if="editProduct && editProduct.id === product.id">
-                  <input v-model.number="editProduct.quantity" type="number" class="form-input" />
+                  <input v-model.number="editProduct.saldo" type="number" class="form-input" />
                 </template>
                 <template v-else>
-                  {{ product.quantity || 0 }}
+                  {{ product.saldo }}
                 </template>
               </td>
+
               <td>
-                <span :class="getLevelClass(product.quantity)">
-                  {{ product.situation || 'N/A' }}
+                <template v-if="editProduct && editProduct.id === product.id">
+                  <input v-model.number="editProduct.min_stock" type="number" class="form-input" />
+                </template>
+                <template v-else>
+                  {{ product.min_stock }}
+                </template>
+              </td>
+
+              <td>
+                <template v-if="editProduct && editProduct.id === product.id">
+                  <input v-model.number="editProduct.med_stock" type="number" class="form-input" />
+                </template>
+                <template v-else>
+                  {{ product.med_stock }}
+                </template>
+              </td>
+
+              <td>
+                R$ {{ product.value_total | currency }}
+              </td>
+
+              <td>
+                <span :class="getLevelClass(product.situation)">
+                  {{ product.situation }}
                 </span>
-               </td>
+              </td>
+
+
               <td class="col-edit">
-                 <div class="action-buttons">
-                    <template v-if="editProduct && editProduct.id === product.id">
-                        <button @click="handleUpdateProduct(editProduct)" class="btn-icon" title="Salvar">
-                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
-                                <path d="M5 12L10 17L20 7" stroke="#48BB78" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                            </svg>
-                        </button>
-                        <button @click="cancelEdit" class="btn-icon" title="Cancelar">
-                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
-                                <path d="M18 6L6 18" stroke="#F56565" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                                <path d="M6 6L18 18" stroke="#F56565" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                            </svg>
-                        </button>
-                    </template>
-                    <template v-else>
-                        <button @click="startEdit(product)" class="btn-icon" title="Editar">
-                            <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
-                                <path d="M13.5 6.5L16.5 9.5L9.5 16.5L6.5 13.5L13.5 6.5Z" stroke="#4299E1" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                                <path d="M13.5 6.5L6.5 13.5" stroke="#4299E1" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                                <path d="M16 10L14 8" stroke="#4299E1" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                            </svg>
-                        </button>
-                        <button @click="deleteProduct(product.id)" class="btn-icon" title="Excluir">
-                            <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
-                                <path d="M5 7V16C5 17.1046 5.89543 18 7 18H13C14.1046 18 15 17.1046 15 16V7" stroke="#718096" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                                <path d="M8 7V5C8 3.89543 8.89543 3 10 3H10.5C11.6046 3 12.5 3.89543 12.5 5V7" stroke="#718096" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                                <path d="M2 7H18" stroke="#718096" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                            </svg>
-                        </button>
-                    </template>
+                <div class="action-buttons">
+                  <template v-if="editProduct && editProduct.id === product.id">
+                    <button @click="handleUpdateProduct(editProduct)" class="btn-icon" title="Salvar">
+                      <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+                        <path d="M5 12L10 17L20 7" stroke="#48BB78" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                      </svg>
+                    </button>
+                    <button @click="cancelEdit" class="btn-icon" title="Cancelar">
+                      <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+                        <path d="M18 6L6 18" stroke="#F56565" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M6 6L18 18" stroke="#F56565" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                      </svg>
+                    </button>
+                  </template>
+
+                  <template v-else>
+                    <button @click="startEdit(product)" class="btn-icon" title="Editar">
+                      <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                        <path d="M13.5 6.5L16.5 9.5L9.5 16.5L6.5 13.5L13.5 6.5Z" stroke="#3182CE" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M13.5 6.5L6.5 13.5" stroke="#3182CE" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M16 10L14 8" stroke="#3182CE" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                      </svg>
+                    </button>
+
+                    <button @click="deleteProduct(product.id)" class="btn-icon" title="Excluir">
+                      <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                        <path d="M5 7V16C5 17.1046 5.89543 18 7 18H13C14.1046 18 15 17.1046 15 16V7" stroke="#718096" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M8 7V5C8 3.89543 8.89543 3 10 3H10.5C11.6046 3 12.5 3.89543 12.5 5V7" stroke="#718096" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M2 7H18" stroke="#718096" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                      </svg>
+                    </button>
+                  </template>
                 </div>
               </td>
             </tr>
@@ -102,11 +136,11 @@
         </table>
       </div>
     </div>
-    
+
     <ProductModal 
       :visible="showCreateModal" 
       @close="closeCreateModal" 
-      @save="handleCreateProduct" 
+      @product-created="fetchProducts" 
     />
     <DeleteProductModal 
       :visible="showDeleteModal" 
@@ -114,7 +148,8 @@
       @close="showDeleteModal = false" 
       @confirm="deleteProductConfirmed"
     />
-  </div>    
+
+  </div>
 </template>
 
 <script>
@@ -128,6 +163,7 @@ export default {
     components: {
       ProductModal,
       DeleteProductModal
+      
     },
   data() {
     return {
@@ -136,7 +172,8 @@ export default {
       editProduct: null,
       showDeleteModal: false,
       productToDelete: null,
-      loading: false 
+      loading: false ,
+      notification: { visible: false, type: 'info', title: '', message: ''}
     }
   },
   mounted() {
@@ -161,15 +198,13 @@ export default {
         this.products = Array.isArray(produtos) ? produtos.map(item => ({
         id: item.id || item._id,
         name: item.name || 'Sem nome',
-        // Garantindo que 'price' é um número para o filtro 'currency'
         price: parseFloat(item.price) || 0,
-        // Mapeando 'quantity' corretamente (o campo 'saldo' do back-end é a quantidade)
         quantity: item.quantity || item.saldo || 0,
         saldo: item.saldo || item.quantity || 0,
         min_stock: item.min_stock || 0,
         med_stock: item.med_stock || 0,
         value_total: item.value_total || 0,
-        situation: item.situation || 'N/A', // Pode ser o texto ou o número, será tratado abaixo
+        situation: item.situation || 'N/A', 
         })) : [];
       } catch (e) {
         console.error('Erro ao buscar produtos:', e);
@@ -179,57 +214,48 @@ export default {
       }
     },
 async handleCreateProduct(formData) {
-  try {
-    const payload = {
+  try {
+    const payload = {
       name: formData.name?.trim() || '',
-      description: formData.description?.trim() || 'Sem descrição',
-      price: parseFloat(formData.price) || 0,
-      saldo: parseInt(formData.quantity) || 0, 
+      price: parseFloat(formData.price) || 0, 
+      saldo: parseInt(formData.saldo) || 0, 
       min_stock: parseInt(formData.min_stock) || 0,
-      med_stock: parseInt(formData.med_stock) || 0,
-      value_total: parseFloat(formData.value_total) || 0,
+      med_stock: parseInt(formData.med_stock) || 0
     };
 
-    console.log('Payload validado:', payload);
+    const response = await axios.post(`${API_URL}/products/`, payload, {
+      headers: { 'Content-Type': 'application/json' }
+    });
 
-    const response = await axios.post(`${API_URL}/products/`, payload, {
-      headers: {
-        'Content-Type': 'application/json'
-      }
-    });
-
-    if (response.status === 201 || response.status === 200) {
-      this.fetchProducts();
-      this.closeCreateModal();
-    } else {
-      throw new Error(response.data?.message || 'Erro ao criar produto');
-    }
-  } catch (error) {
-    console.error('Erro detalhado:', {
-      message: error.message,
-      response: error.response?.data,
-      stack: error.stack
-    });
-    alert(error.message);
-  }
+    if (response.status === 201 || response.status === 200) {
+      this.fetchProducts();
+      this.closeCreateModal();
+    } else {
+      throw new Error(response.data?.message || 'Erro ao criar produto');
+    }
+  } catch (error) {
+    console.error('Erro detalhado:', error);
+    alert(error.message);
+  }
 },
-    async handleUpdateProduct(formData) {
-      try {
-        await axios.put(`${API_URL}/products/${formData.id}`, {
-            name: formData.name,
-            price: formData.price,
-            saldo: formData.quantity,
-            min_stock: formData.min_stock,
-            med_stock: formData.med_stock,
-            value_total: formData.value_total,
-        });
 
-        this.fetchProducts();
-        this.cancelEdit();
-      } catch (error) {
-        console.error('Erro ao atualizar produto:', error);
-      }
-    },
+ async handleUpdateProduct(formData) {
+  try {
+    await axios.put(`${API_URL}/products/${formData.id}`, {
+      name: formData.name,
+      price: formData.price,
+      saldo: formData.saldo,
+      min_stock: formData.min_stock,
+      med_stock: formData.med_stock
+    });
+
+    this.fetchProducts();
+    this.cancelEdit();
+  } catch (error) {
+    console.error('Erro ao atualizar produto:', error);
+  }
+},
+
     async deleteProduct(id) {
       this.productToDelete = this.products.find(p => p.id === id);
       this.showDeleteModal = true;
@@ -247,25 +273,30 @@ async handleCreateProduct(formData) {
         this.productToDelete = null;
       }
     },
-    // A função getLevelByQuantity foi removida por ser redundante.
+getLevelClass(situation) {
+  if (!situation) {
+    return 'level-default';
+  }
 
-    // Função getLevelClass otimizada:
-    getLevelClass(quantity) { 	
-        // Converte para número e verifica se é NaN
-        const numericQuantity = parseFloat(quantity); 
+  const estado = situation.toUpperCase();
 
-        if (isNaN(numericQuantity)) {
-            return 'level-default'; // Retorna uma classe padrão para 'N/A'
-        }
+  switch (estado) {
+    case 'CRÍTICO':
+    case 'CRITICO':
+      return 'level-baixa'; 
+    case 'NORMAL':
+      return 'level-moderado'; 
+    case 'EXCESSO':
+      return 'level-boa'; 
+    default:
+      return 'level-default';
+  }
+},
+    handleProductSuccess(newProduct) {
+      this.fetchProducts();
+      this.showNotification('success', 'Criação Concluída', `Produto "${newProduct.name}" criado com sucesso!`);
+    },
 
-        if (numericQuantity <= 5) {
-            return 'level-baixa'; 
-        } else if (numericQuantity >= 6 && numericQuantity <= 12) {
-            return 'level-moderado'; 
-        } else {
-            return 'level-boa'; 
-        }
-    },
     startEdit(product) {
       this.editProduct = { ...product };
     },
@@ -274,7 +305,7 @@ async handleCreateProduct(formData) {
     },
     cancelEdit() {
       this.editProduct = null;
-    }
+    },
   },
   filters: {
     currency(value) {
@@ -284,7 +315,6 @@ async handleCreateProduct(formData) {
   }
 }
 </script>
-
 <style scoped>
 @import '@/css/Table.css'
 </style>
