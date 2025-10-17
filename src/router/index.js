@@ -18,6 +18,7 @@ import SolicitationsView from '../views/AdminViews/SolicitationsListView.vue'
 import SolicitationSingle from '../components/Solicitations/SolicitationSingle.vue'
 import DriverHome from '../views/DriversViews/DriverHome.vue'
 import DriverInfo from '../views/DriversViews/DriverInfo.vue'
+import ReportsView from '../views/AdminViews/ReportsView.vue'
 
 const routes = [
   // Rotas de autenticação e cadastro
@@ -112,7 +113,12 @@ const routes = [
     props: true,
     meta: { requiresAuth: true, role: 'admin' }
   },
-
+  {
+    path: '/relatorios',
+    name: 'relatorios',
+    component: ReportsView,
+    meta: { requiresAuth: true, role: 'admin'}
+  },
   //Rotas de cliente
   {
     path: '/info-cliente',

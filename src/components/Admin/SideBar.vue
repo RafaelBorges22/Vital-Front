@@ -18,7 +18,10 @@
       </li>
       <li @click="$emit('navigate', '/lista-solicitacoes')" class="sidebar-item">
     <span>📑</span> Solicitações
-  </li>
+      </li>
+      <li @click="$emit('navigate', '/relatorios')" class="sidebar-item">
+        <span>📊</span> Relatórios
+      </li>
     </ul>
   </nav>
 </template>
