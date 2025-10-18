@@ -1,8 +1,12 @@
 <template>
-    <div class="blank-page">
-        <ReportTable />
+    <div class="reports-page">
+        <ReportTable ref="reportTableRef" /> 
     </div>
 </template>
+
 <script setup>
-import ReportTable from '../../components/Admin/ReportTable.vue';
+import ReportTable from '@/components/Admin/ReportTable.vue';
 </script>
+
+<style scoped>
+</style>

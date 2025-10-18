@@ -108,7 +108,7 @@ export default {
       form: {
         status: '',
         driver_id: null,
-        // 🌟 MUDANÇA: Inicialização dos campos logísticos e do cliente
+        driver_name: '',
         surplus: 0,
         loaded: 0,
         total: 0,
@@ -131,10 +131,9 @@ export default {
     this.fetchDrivers(); 
   },
   methods: {
-    // Utilitário para formatar a data ISO (do backend) para o formato de input HTML
     formatDateForInput(dateString) {
       if (!dateString) return '';
-      // A string ISO (ex: 2025-10-14T14:30:00.000Z) deve ser cortada para yyyy-MM-ddThh:mm
+
       return dateString.substring(0, 16); 
     },
 
@@ -144,10 +143,9 @@ export default {
         const res = await axios.get(`${API_URL}/solicitations/${id}`);
         const data = res.data.data || res.data.solicitation || res.data || {};
         this.solicitation = data;
-        
-        // 🌟 MUDANÇA: Mapear todos os campos da API para o formulário
         this.form.status = data.status || 'PENDENTE';
         this.form.driver_id = data.driver_id || null;
+        this.form.driver_name = data.driver_name || '';
         
         this.form.surplus = data.surplus || 0;
         this.form.loaded = data.loaded || 0;
@@ -204,11 +202,10 @@ export default {
     async updateSolicitation() {
       const id = this.solicitation.id || this.solicitation._id;
       try {
-        // 🌟 MUDANÇA: Payload com todos os campos editáveis
         const payload = {
             status: this.form.status,
-            driver_id: this.form.driver_id || null, // Garante que motorista não selecionado é null
-            
+            driver_id: this.form.driver_id || null, 
+            driver_name: this.form.driver_name || '',
             surplus: parseInt(this.form.surplus) || 0,
             loaded: parseInt(this.form.loaded) || 0,
             total: parseInt(this.form.total) || 0,
@@ -217,20 +214,15 @@ export default {
             notes: this.form.notes || null,
             difference: this.form.difference,
             
-            // Campos do cliente (mantidos e enviados para atualização, se necessário)
             description: this.form.description,
             payment_method: this.form.payment_method,
-            date_collected: this.form.date_collected, // Já no formato yyyy-MM-ddThh:mm
+            date_collected: this.form.date_collected,
         };
         
         await axios.put(`${API_URL}/solicitations/${id}`, payload);
         
         this.notification.message = 'Solicitação atualizada com sucesso!';
         this.notification.type = 'success';
-        // Assumindo que você tem um componente de notificação referenciado como 'notification'
-        // this.$refs.notification.showNotification(); 
-        
-        // Recarrega os dados para refletir as mudanças
         this.fetchSolicitation();
         
       } catch (e) {
@@ -238,7 +230,6 @@ export default {
         
         this.notification.message = errorMessage;
         this.notification.type = 'error';
-        // this.$refs.notification.showNotification();
       }
     }
   }
